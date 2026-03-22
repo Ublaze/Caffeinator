@@ -1,0 +1,22 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+*.spec
+!procawake.spec
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.venv/
+venv/
+env/
+*.exe
+*.msi
+installer_output/
+
+# Generated assets (tracked: banner.png, screenshot.png, social-preview.png)
+assets/procawake.ico
