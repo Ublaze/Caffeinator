@@ -53,6 +53,8 @@ class TrayUI:
 
     def stop(self) -> None:
         """Stop the tray icon."""
+        if hasattr(self, "_stop_event"):
+            self._stop_event.set()
         try:
             self._icon.stop()
         except Exception:
@@ -121,6 +123,12 @@ class TrayUI:
 
     def _on_setup(self, icon: pystray.Icon) -> None:
         icon.visible = True
+        # Sync icon with current state — the monitor may have already
+        # detected active rules before the tray was wired up
+        self._refresh()
+        # Start a periodic sync so the icon stays accurate even if
+        # a callback was missed (e.g. during tray startup race)
+        self._start_periodic_refresh()
 
     def _on_toggle_pause(self, icon: pystray.Icon, item: Item) -> None:
         paused = self._app.toggle_pause()
@@ -139,12 +147,33 @@ class TrayUI:
         self._notify(f"Run at login {state}")
 
     def _on_exit(self, icon: pystray.Icon, item: Item) -> None:
+        if hasattr(self, "_stop_event"):
+            self._stop_event.set()
         self._app.stop()
         icon.stop()
 
     # ------------------------------------------------------------------
     # Helpers
     # ------------------------------------------------------------------
+
+    def _start_periodic_refresh(self) -> None:
+        """Periodically sync the tray icon with actual power state.
+
+        This catches any state changes that were missed due to timing
+        (e.g. monitor fired before tray was registered as callback target).
+        Runs every 10 seconds in a daemon thread.
+        """
+        def _loop() -> None:
+            while not self._stop_event.is_set():
+                self._stop_event.wait(timeout=10)
+                if not self._stop_event.is_set():
+                    try:
+                        self._refresh()
+                    except Exception:
+                        pass
+        self._stop_event = threading.Event()
+        t = threading.Thread(target=_loop, daemon=True, name="procawake-tray-sync")
+        t.start()
 
     def _refresh(self) -> None:
         """Update icon and tooltip based on current state."""

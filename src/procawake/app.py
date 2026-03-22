@@ -205,21 +205,27 @@ def main() -> None:
     signal.signal(signal.SIGINT, _signal_handler)
     signal.signal(signal.SIGTERM, _signal_handler)
 
-    app.start()
-
-    # Try to start with tray UI
+    # Create tray BEFORE starting monitor so callbacks can reach it
     try:
         from procawake.tray import TrayUI
         tray = TrayUI(app)
         app._tray = tray
-        tray.run()  # Blocks on main thread
     except ImportError:
+        tray = None
         logger.warning("pystray not available — running headless")
-        # Block on stop event
-        stop_event = threading.Event()
-        try:
-            stop_event.wait()
-        except KeyboardInterrupt:
-            pass
+
+    app.start()
+
+    # Run tray UI on main thread (blocks) or wait headless
+    try:
+        if tray:
+            tray.run()  # Blocks on main thread
+        else:
+            # Headless — block on stop event
+            stop_event = threading.Event()
+            try:
+                stop_event.wait()
+            except KeyboardInterrupt:
+                pass
     finally:
         app.stop()
