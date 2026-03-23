@@ -271,3 +271,11 @@ Issues and PRs are welcome. Please:
 ## License
 
 [MIT](LICENSE) — use it however you want.
+
+---
+
+<div align="center">
+
+If Caffeinator saved your screen, consider giving it a :star: — it helps others find it!
+
+</div>
