@@ -11,7 +11,27 @@
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="MIT License"></a>
   <a href="https://github.com/Ublaze/Caffeinator/releases"><img src="https://img.shields.io/badge/Download-.exe-blue?style=flat-square&logo=github" alt="Download"></a>
+  <a href="https://github.com/Ublaze/Caffeinator/actions/workflows/ci.yml"><img src="https://github.com/Ublaze/Caffeinator/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
 </p>
+
+<details>
+<summary><strong>Table of Contents</strong></summary>
+
+- [Why Caffeinator?](#why-caffeinator)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [How It Works](#how-it-works)
+- [Settings GUI](#settings-gui)
+- [CLI (for power users)](#cli-for-power-users)
+- [Configuration](#configuration)
+- [Comparison](#comparison)
+- [System Requirements](#system-requirements)
+- [Building from Source](#building-from-source)
+- [Architecture](#architecture)
+- [Contributing](#contributing)
+- [License](#license)
+
+</details>
 
 ---
 
@@ -251,3 +271,11 @@ Issues and PRs are welcome. Please:
 ## License
 
 [MIT](LICENSE) — use it however you want.
+
+---
+
+<div align="center">
+
+If Caffeinator saved your screen, consider giving it a :star: — it helps others find it!
+
+</div>
